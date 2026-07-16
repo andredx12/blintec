@@ -198,7 +198,8 @@ Para `Q` = quantidade de peças de um item:
 
 1\. Existe estoque mínimo por tipo de rolo para alerta no dashboard? (documento original não especifica um valor)
 
-2\. Rateio de consumo entre múltiplos rolos: o sistema escolhe automaticamente (ex: FIFO por data de entrada) ou o usuário escolhe manualmente qual rolo usar primeiro?
+2\. \~\~Rateio de consumo entre múltiplos rolos\~\~ \*\*RESOLVIDO:\*\* seleção manual pelo Supervisor/Administrador. FIFO automático foi descartado porque o rolo mais antigo costuma estar fisicamente no fundo do estoque, sendo mais difícil de acessar — forçar uso automático dele criaria atrito na operação real. O sistema deve \*\*sugerir\*\* rolos com saldo suficiente, mas a escolha final é manual.
 
 3\. Reprogramação de enfesto (alterar programação já confirmada): fluxo formal fica para v2, mas precisa de decisão sobre se entra no MVP ou não
+
 
