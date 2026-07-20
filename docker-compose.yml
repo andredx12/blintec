@@ -1,0 +1,15 @@
+﻿services:
+  postgres:
+    image: postgres:16
+    container_name: blintec-postgres
+    environment:
+      POSTGRES_DB: blintec
+      POSTGRES_USER: blintec
+      POSTGRES_PASSWORD: blintec123
+    ports:
+      - "5433:5432"
+    volumes:
+      - blintec-data:/var/lib/postgresql/data
+
+volumes:
+  blintec-data:
