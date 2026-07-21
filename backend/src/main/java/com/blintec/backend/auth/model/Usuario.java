@@ -1,6 +1,8 @@
 package com.blintec.backend.auth.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "usuario")
@@ -20,6 +22,7 @@ public class Usuario {
     private String senhaHash;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(nullable = false)
     private Perfil perfil;
 
