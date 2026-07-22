@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +46,28 @@ public class AuthController {
                 "perfil", usuario.getPerfil().name()
         ));
     }
+
+@GetMapping("/me")
+public ResponseEntity<?> me() {
+    var auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+
+    if (auth == null || !auth.isAuthenticated()) {
+        return ResponseEntity.status(401).body(Map.of("erro", "Não autenticado"));
+    }
+
+    Long usuarioId = (Long) auth.getPrincipal();
+    Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
+
+    if (usuario == null) {
+        return ResponseEntity.status(404).body(Map.of("erro", "Usuário não encontrado"));
+    }
+
+    return ResponseEntity.ok(Map.of(
+            "id", usuario.getId(),
+            "nome", usuario.getNome(),
+            "email", usuario.getEmail(),
+            "perfil", usuario.getPerfil().name()
+    ));
+}
 
 }
