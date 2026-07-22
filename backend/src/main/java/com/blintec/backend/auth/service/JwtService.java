@@ -1,5 +1,6 @@
 package com.blintec.backend.auth.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,22 @@ public class JwtService {
                 .expiration(expiracao)
                 .signWith(chave)
                 .compact();
+    }
+
+    public Claims validarToken(String token) {
+        return Jwts.parser()
+                .verifyWith(chave)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    public Long extrairUsuarioId(String token) {
+        return Long.parseLong(validarToken(token).getSubject());
+    }
+
+    public String extrairPerfil(String token) {
+        return validarToken(token).get("perfil", String.class);
     }
 
 }
