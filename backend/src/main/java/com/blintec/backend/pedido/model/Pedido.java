@@ -33,7 +33,7 @@ public class Pedido {
     private String cor;
 
     @Column(name = "capa_extra", nullable = false)
-    private boolean capaExtra = false;
+    private Integer capaExtra = 0;
 
     @Column(name = "data_entrega", nullable = false)
     private LocalDate dataEntrega;
@@ -93,12 +93,13 @@ public class Pedido {
         this.cor = cor;
     }
 
-    public boolean isCapaExtra() {
-        return capaExtra;
+    public Integer getCapaExtra() {
+    return capaExtra;
     }
 
-    public void setCapaExtra(boolean capaExtra) {
-        this.capaExtra = capaExtra;
+
+    public void setCapaExtra(Integer capaExtra) {
+    this.capaExtra = capaExtra;
     }
 
     public LocalDate getDataEntrega() {
