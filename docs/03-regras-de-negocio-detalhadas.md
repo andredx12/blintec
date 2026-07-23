@@ -83,16 +83,16 @@ Para `Q` = quantidade de peças de um item:
 
 
 
-\*\*RN006/RN007/RN008 — Duplicação condicional\*\*
+## Bloco 4 — Capa Extra
 
+**RN006/RN007/RN008 — Multiplicação por quantidade de capas extras (CORRIGIDO)**
 
+O campo `capaExtra` não é um booleano (sim/não) — é um **número inteiro** representando quantas capas extras são solicitadas por peça no pedido.
+- Exemplo (3 coletes M, quantidadeCapaExtra = 1): multiplicador = 2 → 3 × 2 = 6 capas totais
+- Exemplo (3 coletes M, quantidadeCapaExtra = 2): multiplicador = 3 → 3 × 3 = 9 capas totais
+- Exemplo (quantidadeCapaExtra = 0): multiplicador = 1 → sem alteração, comportamento padrão
 
-
-
-\- Importante: a capa extra \*\*dobra a quantidade de capas\*\*, e por consequência dobra também os componentes calculados no Bloco 3 (frentes, costas, ombrinhos, palas, abas) — não é um cálculo separado
-
-\- Exemplo (20 capas G, capaExtra = true): 20 normais + 20 extras = 40 capas totais → 40 Frentes, 40 Costas, 80 Ombrinhos, 80 Palas, 160 Abas
-
+- Caso de borda: `quantidadeCapaExtra` deve ser um inteiro ≥ 0 — valores negativos são rejeitados na validação
 
 
 \## Bloco 5 — Programação de Enfesto
