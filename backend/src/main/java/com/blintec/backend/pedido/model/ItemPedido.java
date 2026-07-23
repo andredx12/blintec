@@ -2,6 +2,8 @@ package com.blintec.backend.pedido.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "item_pedido")
@@ -18,9 +20,12 @@ public class ItemPedido {
 
     @ManyToOne
     @JoinColumn(name = "tamanho_modelo_id", nullable = false)
+    @NotNull(message = "Tamanho é obrigatório")
     private TamanhoModelo tamanhoModelo;
 
     @Column(nullable = false)
+    @NotNull(message = "Quantidade é obrigatória")
+    @Positive(message = "Quantidade deve ser maior que zero")
     private Integer quantidade;
 
     public Long getId() {
