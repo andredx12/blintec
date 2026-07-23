@@ -2,6 +2,10 @@ package com.blintec.backend.pedido.model;
 
 import com.blintec.backend.auth.model.Usuario;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -20,22 +24,27 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
+    @NotNull(message = "Cliente é obrigatório")
     private Cliente cliente;
 
     @Column(name = "numero_pedido", nullable = false, unique = true, length = 30)
+    @NotBlank(message = "Número do pedido é obrigatório")
     private String numeroPedido;
 
     @ManyToOne
     @JoinColumn(name = "modelo_id", nullable = false)
+    @NotNull(message = "Modelo é obrigatório")
     private Modelo modelo;
 
     @Column(nullable = false, length = 50)
+    @NotBlank(message = "Cor é obrigatória")
     private String cor;
 
     @Column(name = "capa_extra", nullable = false)
     private Integer capaExtra = 0;
 
     @Column(name = "data_entrega", nullable = false)
+    @NotNull(message = "Data de entrega é obrigatória")
     private LocalDate dataEntrega;
 
     @Enumerated(EnumType.STRING)
@@ -51,6 +60,8 @@ public class Pedido {
     private Usuario criadoPor;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotEmpty(message = "Pedido deve ter ao menos um item")
+    @Valid
     private List<ItemPedido> itens = new ArrayList<>();
 
     public Long getId() {
@@ -94,12 +105,11 @@ public class Pedido {
     }
 
     public Integer getCapaExtra() {
-    return capaExtra;
+        return capaExtra;
     }
 
-
     public void setCapaExtra(Integer capaExtra) {
-    this.capaExtra = capaExtra;
+        this.capaExtra = capaExtra;
     }
 
     public LocalDate getDataEntrega() {
