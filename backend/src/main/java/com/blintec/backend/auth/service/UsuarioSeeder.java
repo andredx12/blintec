@@ -15,12 +15,17 @@ public class UsuarioSeeder implements CommandLineRunner {
     @Autowired
     private UsuarioService usuarioService;
 
-    @Override
-    public void run(String... args) {
-        if (usuarioRepository.findByEmail("admin@blintec.com").isEmpty()) {
-            usuarioService.criar("Administrador", "admin@blintec.com", "admin123", Perfil.ADMINISTRADOR);
-            System.out.println(">>> Usuário admin criado: admin@blintec.com / admin123");
-        }
+@Override
+public void run(String... args) {
+    if (usuarioRepository.findByEmail("admin@blintec.com").isEmpty()) {
+        usuarioService.criar("Administrador", "admin@blintec.com", "admin123", Perfil.ADMINISTRADOR);
+        System.out.println(">>> Usuário admin criado: admin@blintec.com / admin123");
     }
+
+    if (usuarioRepository.findByEmail("operador@blintec.com").isEmpty()) {
+        usuarioService.criar("Operador Teste", "operador@blintec.com", "operador123", Perfil.OPERADOR);
+        System.out.println(">>> Usuário operador criado: operador@blintec.com / operador123");
+    }
+}
 
 }
