@@ -32,35 +32,18 @@
 
 
 
-\## Bloco 2 — Modelagens e Tamanhos
+## Bloco 2 — Modelagens e Tamanhos
 
+**Tabela de equivalência (usada no cálculo de componentes):**
 
+| Modelo | Grade Masculina | Grade Feminina | Equivalência |
+|--------|-----------------|-----------------|--------------|
+| RB / ROBOCOP | PP, P, M, G, GG, EGG | PFEM, MFEM, GFEM, GGFEM | Feminino **aponta** para o masculino correspondente (PFEM→PP, MFEM→P, GFEM→M, GGFEM→G) — usa o cálculo do tamanho masculino |
+| SENASP | PP, P, M, G, GG, EGG | PPFEM, PFEM, MFEM, GFEM, GGFEM | **Sem equivalência** — cada tamanho feminino tem cálculo próprio e independente |
+| EXECUTIVO | PP, P, M, G, GG, EGG | **Não possui** | Modelo **unissex** — não existe grade feminina separada |
 
-\*\*Tabela de equivalência (usada no cálculo de componentes):\*\*
-
-
-
-| Modelo | Tamanho Feminino | Equivale a (Masculino) |
-
-|--------|------------------|------------------------|
-
-| RB / ROBOCOP | PFEM | PP |
-
-| RB / ROBOCOP | MFEM | P |
-
-| RB / ROBOCOP | GFEM | M |
-
-| RB / ROBOCOP | GGFEM | G |
-
-| SENASP | PPFEM, PFEM, MFEM, GFEM, GGFEM | (tamanhos próprios, sem equivalência — grade feminina independente) |
-
-| EXECUTIVO | (não possui grade feminina definida na documentação) | — |
-
-
-
-\- Caso de borda: cadastro de pedido com modelo EXECUTIVO + tamanho feminino deve ser bloqueado na validação (grade não suportada)
-
-
+- Caso de borda: cadastro de pedido com modelo EXECUTIVO + gênero feminino deve ser bloqueado na validação (modelo não possui essa grade)
+- Caso de borda: cadastro de pedido com modelo RB/ROBOCOP + tamanho feminino sem `tamanhoEquivalente` configurado deve ser rejeitado (inconsistência de dados)
 
 \## Bloco 3 — Cálculo de Componentes da Capa
 
