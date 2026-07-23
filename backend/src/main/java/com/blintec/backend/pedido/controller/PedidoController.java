@@ -4,6 +4,7 @@ import com.blintec.backend.pedido.model.Pedido;
 import com.blintec.backend.pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class PedidoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMINISTRADOR')")
     public ResponseEntity<Pedido> criar(@RequestBody Pedido pedido) {
         Pedido salvo = pedidoService.criar(pedido);
         return ResponseEntity.status(201).body(salvo);
