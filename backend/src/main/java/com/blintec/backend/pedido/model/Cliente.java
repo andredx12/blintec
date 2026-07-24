@@ -1,7 +1,7 @@
 package com.blintec.backend.pedido.model;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,9 +13,11 @@ public class Cliente {
     private Long id;
 
     @Column(nullable = false, length = 150)
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
 
     @Column(name = "cnpj_cpf", nullable = false, unique = true, length = 20)
+    @NotBlank(message = "CNPJ/CPF é obrigatório")
     private String cnpjCpf;
 
     @Column(name = "criado_em", nullable = false, updatable = false, insertable = false)
