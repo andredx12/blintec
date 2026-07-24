@@ -1,6 +1,7 @@
 package com.blintec.backend.pedido.controller;
 
 import com.blintec.backend.pedido.model.Pedido;
+import com.blintec.backend.pedido.model.StatusPedido;
 import com.blintec.backend.pedido.service.PedidoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping
-    public List<Pedido> listarTodos() {
-        return pedidoService.listarTodos();
-    }
+    public List<Pedido> listarTodos(@RequestParam(required = false) StatusPedido status) {
+        return pedidoService.listarTodos(status);
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
