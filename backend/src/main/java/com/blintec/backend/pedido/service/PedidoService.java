@@ -2,6 +2,7 @@ package com.blintec.backend.pedido.service;
 
 import com.blintec.backend.pedido.model.ItemPedido;
 import com.blintec.backend.pedido.model.Pedido;
+import com.blintec.backend.pedido.model.StatusPedido;
 import com.blintec.backend.pedido.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,10 @@ public class PedidoService {
         return pedidoRepository.save(pedido);
     }
 
-    public List<Pedido> listarTodos() {
+    public List<Pedido> listarTodos(StatusPedido status) {
+        if (status != null) {
+            return pedidoRepository.findByStatus(status);
+        }
         return pedidoRepository.findAll();
     }
 
