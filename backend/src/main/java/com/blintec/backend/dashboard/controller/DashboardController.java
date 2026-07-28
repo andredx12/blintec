@@ -1,5 +1,9 @@
 package com.blintec.backend.dashboard.controller;
 
+import com.blintec.backend.dashboard.service.ConsumoPeriodo;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDate;
 import com.blintec.backend.dashboard.service.DashboardService;
 import com.blintec.backend.dashboard.service.PedidoAtrasado;
 import com.blintec.backend.dashboard.service.ResumoPedidos;
@@ -29,10 +33,16 @@ public class DashboardController {
     public List<PedidoAtrasado> atrasados() {
         return dashboardService.pedidosAtrasados();
     }
-
     @GetMapping("/estoque")
     public List<IndicadorEstoque> estoque() {
         return dashboardService.indicadoresEstoque();
     }
 
+    @GetMapping("/consumo")
+    public ConsumoPeriodo consumo(
+            @RequestParam LocalDate inicio,
+            @RequestParam LocalDate fim
+    ) {
+        return dashboardService.consumoPeriodo(inicio, fim);
+    }
 }
