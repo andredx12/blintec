@@ -1,4 +1,7 @@
 package com.blintec.backend.dashboard.service;
+import com.blintec.backend.estoque.model.MovimentacaoEstoque;
+import com.blintec.backend.estoque.model.TipoMovimentacaoEstoque;
+import com.blintec.backend.estoque.repository.MovimentacaoEstoqueRepository;
 
 import com.blintec.backend.estoque.model.Rolo;
 import com.blintec.backend.estoque.model.TipoTecido;
@@ -19,6 +22,9 @@ import java.util.stream.Collectors;
 @Service
 public class DashboardService {
 
+    @Autowired
+    private MovimentacaoEstoqueRepository movimentacaoEstoqueRepository;
+    
     @Autowired
     private PedidoRepository pedidoRepository;
 
@@ -80,6 +86,21 @@ public class DashboardService {
                     );
                 })
                 .collect(Collectors.toList());
+    }
+    public ConsumoPeriodo consumoPeriodo(LocalDate inicio, LocalDate fim) {
+        List<MovimentacaoEstoque> saidas = movimentacaoEstoqueRepository.findAll().stream()
+                .filter(mov -> mov.getTipo() == TipoMovimentacaoEstoque.SAIDA)
+                .filter(mov -> {
+                    LocalDate dataMovimentacao = mov.getData().toLocalDate();
+                    return !dataMovimentacao.isBefore(inicio) && !dataMovimentacao.isAfter(fim);
+                })
+                .collect(Collectors.toList());
+
+        BigDecimal total = saidas.stream()
+                .map(MovimentacaoEstoque::getQuantidade)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new ConsumoPeriodo(inicio, fim, total);
     }
 
 }
