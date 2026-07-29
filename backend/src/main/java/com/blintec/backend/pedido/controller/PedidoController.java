@@ -1,5 +1,7 @@
 package com.blintec.backend.pedido.controller;
 
+import com.blintec.backend.auth.model.Usuario;
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.blintec.backend.pedido.model.Pedido;
 import com.blintec.backend.pedido.model.StatusPedido;
 import com.blintec.backend.pedido.service.PedidoService;
@@ -41,8 +43,14 @@ public class PedidoController {
     @PostMapping
     @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMINISTRADOR')")
     public ResponseEntity<Pedido> criar(@Valid @RequestBody Pedido pedido) {
+        Long usuarioId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+        pedido.setCriadoPor(usuario);
+
         Pedido salvo = pedidoService.criar(pedido);
         return ResponseEntity.status(201).body(salvo);
     }
+    
 
 }
