@@ -3,14 +3,12 @@ package com.blintec.backend.enfesto.service;
 import com.blintec.backend.auth.model.Usuario;
 import com.blintec.backend.enfesto.model.ProgramacaoEnfesto;
 import com.blintec.backend.enfesto.repository.ProgramacaoEnfestoRepository;
-import com.blintec.backend.estoque.model.Rolo;
 import com.blintec.backend.estoque.repository.RoloRepository;
 import com.blintec.backend.estoque.service.RoloService;
+import com.blintec.backend.pedido.model.ItemPedido;
 import com.blintec.backend.pedido.model.Pedido;
 import com.blintec.backend.pedido.model.StatusPedido;
 import com.blintec.backend.pedido.repository.PedidoRepository;
-import com.blintec.backend.pedido.service.ComponentesCapa;
-import com.blintec.backend.pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,13 +33,17 @@ public class EnfestoService {
     @Autowired
     private RoloService roloService;
 
-    @Autowired
-    private PedidoService pedidoService;
-
     public BigDecimal calcularConsumoTotal(Pedido pedido) {
-        ComponentesCapa componentes = pedidoService.calcularComponentes(pedido);
-        BigDecimal consumoPorPeca = pedido.getModelo().getConsumoTecidoPorPeca();
-        return consumoPorPeca.multiply(BigDecimal.valueOf(componentes.frentes()));
+        int multiplicador = 1 + pedido.getCapaExtra();
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (ItemPedido item : pedido.getItens()) {
+            BigDecimal consumoPorPeca = item.getTamanhoModelo().getConsumoTecidoEfetivo();
+            BigDecimal quantidadeComExtra = BigDecimal.valueOf(item.getQuantidade() * multiplicador);
+            total = total.add(consumoPorPeca.multiply(quantidadeComExtra));
+        }
+
+        return total;
     }
 
     public List<SugestaoRolo> sugerirRolos(Long tipoTecidoId) {
