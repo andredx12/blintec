@@ -115,21 +115,14 @@ O campo `capaExtra` não é um booleano (sim/não) — é um **número inteiro**
 
 
 
-\*\*RN013-RN016 — Consumo automático de tecido\*\*
+**RN013-RN016 — Consumo automático de tecido (CORRIGIDO)**
 
-- Exemplo de validação: 1,87m/peça × 20 peças = 37,40m ✅ (bate com o documento original)
+O consumo de tecido não é fixo por Modelo — cada tamanho da grade tem seu próprio consumo em metros, informado por quem calcula o risco de corte. Para tamanhos femininos do modelo RB, que usam o tamanho masculino equivalente para o cálculo (ver Bloco 2), o consumo utilizado é o do tamanho equivalente, não um valor próprio.
 
-\- \*\*RN016 — Débito automático de estoque:\*\* ao confirmar a programação de enfesto, o sistema deve:
-
-&#x20; 1. Verificar se `saldoAtual` do(s) rolo(s) selecionado(s) ≥ `consumoTotal`
-
-&#x20; 2. Se sim: criar `MovimentacaoEstoque` (tipo SAIDA) e decrementar `saldoAtual`
-
-&#x20; 3. Se não: \*\*bloquear a confirmação\*\* e retornar erro informando o déficit (quantidade faltante)
-
-\- Caso de borda: consumo pode ser atendido por \*\*múltiplos rolos\*\* (ex: rolo A tem 20m, faltam 17,40m do rolo B) — sistema deve suportar rateio entre rolos, gerando uma `MovimentacaoEstoque` por rolo consumido
-
-
+```
+consumoItem = consumoTecidoPorPeca (do TamanhoModelo, ou do seu tamanhoEquivalente se existir) × quantidade × multiplicador de capa extra
+consumoTotal = soma de consumoItem de todos os itens do pedido
+```
 
 \## Bloco 7 — Produção
 
