@@ -1,8 +1,12 @@
 package com.blintec.backend.pedido.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tamanho_modelo")
@@ -27,6 +31,11 @@ public class TamanhoModelo {
     @ManyToOne
     @JoinColumn(name = "tamanho_equivalente_id")
     private TamanhoModelo tamanhoEquivalente;
+
+    @Column(name = "consumo_tecido_por_peca", nullable = false, precision = 6, scale = 2)
+    @NotNull(message = "Consumo de tecido por peca e obrigatorio")
+    @Positive(message = "Consumo deve ser maior que zero")
+    private BigDecimal consumoTecidoPorPeca;
 
     public Long getId() {
         return id;
@@ -66,6 +75,20 @@ public class TamanhoModelo {
 
     public void setTamanhoEquivalente(TamanhoModelo tamanhoEquivalente) {
         this.tamanhoEquivalente = tamanhoEquivalente;
+    }
+
+    public BigDecimal getConsumoTecidoPorPeca() {
+        return consumoTecidoPorPeca;
+    }
+
+    public void setConsumoTecidoPorPeca(BigDecimal consumoTecidoPorPeca) {
+        this.consumoTecidoPorPeca = consumoTecidoPorPeca;
+    }
+
+    public BigDecimal getConsumoTecidoEfetivo() {
+        return tamanhoEquivalente != null
+                ? tamanhoEquivalente.getConsumoTecidoPorPeca()
+                : consumoTecidoPorPeca;
     }
 
 }
